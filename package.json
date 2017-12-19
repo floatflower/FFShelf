@@ -1,0 +1,19 @@
+{
+  "name": "ffshelf",
+  "version": "1.0.0",
+  "description": "A popup box for selecting files on web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/floatflower/FFShelf.git"
+  },
+  "author": "FloatFlower.Huang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/floatflower/FFShelf/issues"
+  },
+  "homepage": "https://github.com/floatflower/FFShelf#readme"
+}
