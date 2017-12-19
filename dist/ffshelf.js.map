@@ -1,0 +1,1 @@
+{"version":3,"file":"ffshelf.js","sources":["../src/ffshelf.js"],"sourcesContent":["var ffshelf = Vue.extend({\r\n\r\n});"],"names":["ffshelf","Vue","extend"],"mappings":";;;;;;;;;;;AAAA,IAAIA,UAAUC,IAAIC,MAAJ,CAAW,EAAX,CAAd;;;;"}
