@@ -62,6 +62,6 @@ configMin.plugins.push(
 
 
 module.exports = [
-  //config,
+  config,
   configMin
 ];
