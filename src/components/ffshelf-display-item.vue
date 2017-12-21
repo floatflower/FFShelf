@@ -1,8 +1,10 @@
 <template>
-    <div class="ffshelf-display-item">
-        <div class="item-content" v-bind:class="{ 'ffshelf-display-item__item-chosen': chosen }" v-on:click="onClick">
+    <div class="ffshelf-display-item" v-bind:title="title">
+        <div class="item-content"
+             v-bind:class="{ 'ffshelf-display-item__item-chosen': chosen }"
+             v-on:click="onClick">
             <div class="item-thumbnail">
-                <component :is="filetype" :url="url"></component>
+                <component :is="filetype" :thumbnail="thumbnail"></component>
             </div>
             <div class="item-filename">
                 <slot></slot>
@@ -25,7 +27,7 @@
                 chosen: false
             }
         },
-        props: ['filetype', 'url'],
+        props: ['filetype', 'thumbnail', 'title'],
         mounted: function() {
 
         },

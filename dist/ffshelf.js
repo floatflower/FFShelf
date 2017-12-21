@@ -177,9 +177,9 @@ var icon_file = { render: function () {
 })();
 
 var icon_thumbnail = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_c('img', { attrs: { "src": _vm.url } })]);
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_c('img', { attrs: { "src": _vm.thumbnail } })]);
     }, staticRenderFns: [],
-    props: ["url"]
+    props: ["thumbnail"]
 };
 
 (function () {
@@ -195,14 +195,14 @@ var icon_thumbnail = { render: function () {
 })();
 
 var item$1 = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display-item__ffshelf-display-item" }, [_c('div', { staticClass: "ffshelf-display-item__item-content", class: { 'ffshelf-display-item__item-chosen': _vm.chosen }, on: { "click": _vm.onClick } }, [_c('div', { staticClass: "ffshelf-display-item__item-thumbnail" }, [_c(_vm.filetype, { tag: "component", attrs: { "url": _vm.url } })], 1), _vm._v(" "), _c('div', { staticClass: "ffshelf-display-item__item-filename" }, [_vm._t("default")], 2)])]);
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display-item__ffshelf-display-item", attrs: { "title": _vm.title } }, [_c('div', { staticClass: "ffshelf-display-item__item-content", class: { 'ffshelf-display-item__item-chosen': _vm.chosen }, on: { "click": _vm.onClick } }, [_c('div', { staticClass: "ffshelf-display-item__item-thumbnail" }, [_c(_vm.filetype, { tag: "component", attrs: { "thumbnail": _vm.thumbnail } })], 1), _vm._v(" "), _c('div', { staticClass: "ffshelf-display-item__item-filename" }, [_vm._t("default")], 2)])]);
     }, staticRenderFns: [], cssModules: { "ffshelfDisplayItem": "ffshelf-display-item__ffshelf-display-item", "ffshelf-display-item": "ffshelf-display-item__ffshelf-display-item", "itemChosen": "ffshelf-display-item__item-chosen", "item-chosen": "ffshelf-display-item__item-chosen", "itemContent": "ffshelf-display-item__item-content", "item-content": "ffshelf-display-item__item-content", "itemThumbnail": "ffshelf-display-item__item-thumbnail", "item-thumbnail": "ffshelf-display-item__item-thumbnail", "itemFilename": "ffshelf-display-item__item-filename", "item-filename": "ffshelf-display-item__item-filename" },
     data: function () {
         return {
             chosen: false
         };
     },
-    props: ['filetype', 'url'],
+    props: ['filetype', 'thumbnail', 'title'],
     mounted: function () {},
     components: {
         'pic': icon_thumbnail,
@@ -233,8 +233,24 @@ var item$1 = { render: function () {
 })();
 
 var display = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display__ffshelf-display" }, [_c('div', { staticClass: "ffshelf-display__item-container" }, [_c('item', { attrs: { "filetype": "document", "thumnail": "" } }, [_vm._v("Document")]), _vm._v(" "), _c('item', { attrs: { "filetype": "els" } }, [_vm._v("Excel")]), _vm._v(" "), _c('item', { attrs: { "filetype": "ppt" } }, [_vm._v("PowerPoint")]), _vm._v(" "), _c('item', { attrs: { "filetype": "pdf" } }, [_vm._v("PDF")]), _vm._v(" "), _c('item', { attrs: { "filetype": "file" } }, [_vm._v("Other file f dsf df sd ")]), _vm._v(" "), _c('item', { attrs: { "filetype": "pic", "url": "https://lh3.googleusercontent.com/dB3Dvgf3VIglusoGJAfpNUAANhTXW8K9mvIsiIPkhJUAbAKGKJcEMPTf0mkSexzLM5o=w300" } }, [_vm._v(" Image ")])], 1)]);
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display__ffshelf-display" }, [_c('div', { staticClass: "ffshelf-display__item-container" }, _vm._l(_vm.files, function (file) {
+            return _c('item', { attrs: { "filetype": file.filetype, "thumbnail": file.thumbnail, "title": file.title } }, [_vm._v(" " + _vm._s(file.filename) + " ")]);
+        }))]);
     }, staticRenderFns: [], cssModules: { "ffshelfDisplay": "ffshelf-display__ffshelf-display", "ffshelf-display": "ffshelf-display__ffshelf-display", "itemContainer": "ffshelf-display__item-container", "item-container": "ffshelf-display__item-container" },
+    props: ['url'],
+    data: function () {
+        return {
+            files: []
+        };
+    },
+    mounted: function () {
+        this.files.push({ filetype: "document", filename: "Document", title: "Hello" });
+        this.files.push({ filetype: "els", filename: "Excel File" });
+        this.files.push({ filetype: "ppt", filename: "PowerPoint" });
+        this.files.push({ filetype: "pdf", filename: "PDF" });
+        this.files.push({ filetype: "file", filename: "the name has been overflow" });
+        this.files.push({ filetype: "pic", filename: "Picture", thumbnail: "https://lh3.googleusercontent.com/dB3Dvgf3VIglusoGJAfpNUAANhTXW8K9mvIsiIPkhJUAbAKGKJcEMPTf0mkSexzLM5o=w300" });
+    },
     components: {
         "item": item$1
     }

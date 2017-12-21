@@ -1,11 +1,11 @@
 <template>
   <div>
-      <img v-bind:src="url"/>
+      <img v-bind:src="thumbnail"/>
   </div>
 </template>
 
 <script>
     export default {
-        props: ["url"]
+        props: ["thumbnail"]
     }
 </script>

@@ -1,13 +1,11 @@
 <template>
     <div class="ffshelf-display">
         <div class="item-container">
-            <item filetype="document" thumnail="">Document</item>
-            <item filetype="els">Excel</item>
-            <item filetype="ppt">PowerPoint</item>
-            <item filetype="pdf">PDF</item>
-            <item filetype="file">Other file f dsf df sd </item>
-            <item filetype="pic" url="https://lh3.googleusercontent.com/dB3Dvgf3VIglusoGJAfpNUAANhTXW8K9mvIsiIPkhJUAbAKGKJcEMPTf0mkSexzLM5o=w300">
-                Image
+            <item v-for="file in files"
+                  v-bind:filetype="file.filetype"
+                  v-bind:thumbnail="file.thumbnail"
+                  v-bind:title="file.title">
+                {{ file.filename }}
             </item>
         </div>
     </div>
@@ -17,6 +15,20 @@
     import item from './ffshelf-display-item.vue';
 
     export default {
+        props: ['url'],
+        data: function() {
+            return {
+                files: []
+            }
+        },
+        mounted: function() {
+            this.files.push({filetype:"document", filename: "Document", title: "Hello"});
+            this.files.push({filetype:"els", filename: "Excel File"});
+            this.files.push({filetype:"ppt", filename: "PowerPoint"});
+            this.files.push({filetype:"pdf", filename: "PDF"});
+            this.files.push({filetype:"file", filename: "the name has been overflow"});
+            this.files.push({filetype:"pic", filename: "Picture", thumbnail: "https://lh3.googleusercontent.com/dB3Dvgf3VIglusoGJAfpNUAANhTXW8K9mvIsiIPkhJUAbAKGKJcEMPTf0mkSexzLM5o=w300"});
+        },
         components: {
             "item": item
         }
