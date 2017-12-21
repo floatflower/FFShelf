@@ -10,28 +10,32 @@
 }(this, (function () { 'use strict';
 
 (function () {
-  if (typeof document !== 'undefined') {
-    var head = document.head || document.getElementsByTagName('head')[0],
-        style = document.createElement('style'),
-        css = " /*# sourceMappingURL=ffshelf-cover.vue.map */";style.type = 'text/css';if (style.styleSheet) {
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
-    }head.appendChild(style);
-  }
+    if (typeof document !== 'undefined') {
+        var head = document.head || document.getElementsByTagName('head')[0],
+            style = document.createElement('style'),
+            css = ".ffshelf-cover__ffshelf-cover { width: 100%; height: 100%; position: fixed; background-color: rgba(0, 0, 0, 0.7); z-index: 999; } ";style.type = 'text/css';if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }head.appendChild(style);
+    }
 })();
 
 var cover = { render: function () {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "component" });
-  }, staticRenderFns: []
-
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-cover__ffshelf-cover", on: { "click": _vm.onClick } });
+    }, staticRenderFns: [], cssModules: { "ffshelfCover": "ffshelf-cover__ffshelf-cover", "ffshelf-cover": "ffshelf-cover__ffshelf-cover" },
+    methods: {
+        onClick: function () {
+            this.$emit('click');
+        }
+    }
 };
 
 (function () {
     if (typeof document !== 'undefined') {
         var head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style'),
-            css = ".ffshelf-dialog__dialog { width: 100px; } ";style.type = 'text/css';if (style.styleSheet) {
+            css = ".ffshelf-dialog__ffshelf-dialog { top: 50%; left: 50%; position: fixed; z-index: 1000; width: 960px; height: 640px; background-color: #fff; margin: -320px 0 0 -480px; } ";style.type = 'text/css';if (style.styleSheet) {
             style.styleSheet.cssText = css;
         } else {
             style.appendChild(document.createTextNode(css));
@@ -40,12 +44,10 @@ var cover = { render: function () {
 })();
 
 var dialog = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-dialog__dialog" }, [_vm._v(" " + _vm._s(_vm.test) + " ")]);
-    }, staticRenderFns: [], cssModules: { "dialog": "ffshelf-dialog__dialog" },
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-dialog__ffshelf-dialog" });
+    }, staticRenderFns: [], cssModules: { "ffshelfDialog": "ffshelf-dialog__ffshelf-dialog", "ffshelf-dialog": "ffshelf-dialog__ffshelf-dialog" },
     data: function () {
-        return {
-            test: "Hello"
-        };
+        return {};
     }
 };
 
@@ -62,14 +64,17 @@ var dialog = { render: function () {
 })();
 
 var ffshelf$2 = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf" }, [_c('cover'), _vm._v(" "), _c('dialog')], 1);
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf" }, [_c('ffshelf-cover', { on: { "click": _vm.onCoverClick } }), _vm._v(" "), _c('ffshelf-dialog')], 1);
     }, staticRenderFns: [], cssModules: { "ffShelf": "ffshelf__ff-shelf", "ff-shelf": "ffshelf__ff-shelf", "dialogFrame": "ffshelf__dialog-frame", "dialog-frame": "ffshelf__dialog-frame", "dialog": "ffshelf__dialog", "dialogClose": "ffshelf__dialog-close", "dialog-close": "ffshelf__dialog-close" },
     components: {
-        'dialog': dialog,
-        'cover': cover
-
+        'ffshelf-dialog': dialog,
+        'ffshelf-cover': cover
     },
-    methods: {}
+    methods: {
+        onCoverClick: function () {
+            console.log("cover clicked!");
+        }
+    }
 };
 
 var ffshelf$3 = Object.freeze({

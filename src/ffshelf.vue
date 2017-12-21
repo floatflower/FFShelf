@@ -1,7 +1,7 @@
 <template>
     <div class="ffshelf">
-        <cover></cover>
-        <dialog></dialog>
+        <ffshelf-cover v-on:click="onCoverClick"></ffshelf-cover>
+        <ffshelf-dialog></ffshelf-dialog>
     </div>
 </template>
 
@@ -11,11 +11,13 @@ import dialog from './components/ffshelf-dialog.vue'
 
 export default {
     components: {
-        'dialog': dialog,
-        'cover': cover
-
+        'ffshelf-dialog': dialog,
+        'ffshelf-cover': cover
     },
     methods: {
+        onCoverClick: function() {
+            console.log("cover clicked!");
+        }
     }
 }
 </script>
