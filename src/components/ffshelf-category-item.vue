@@ -6,16 +6,24 @@
 </template>
 
 <script>
-
-
-    export default {
-        props: ["icon"],
-        methods: {
-            onClick: function () {
-                this.$emit('click');
-            }
+export default {
+    data: function() {
+        return {
+            icon: ''
+        }
+    },
+    props: ["category"],
+    mounted: function() {
+        if (this.category.icon) {
+            this.icon = this.category.icon;
+        }
+    },
+    methods: {
+        onClick: function () {
+            this.$emit('click', this.category);
         }
     }
+}
 </script>
 
 <style lang="scss" module>

@@ -1,8 +1,3 @@
-/*!
- * Name: ffshelf
- * Version: 1.0.0
- * Author: FloatFlower.Huang
- */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -46,10 +41,20 @@ var cover = { render: function () {
 var item = { render: function () {
         var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-category-item__ffshelf-category-item", on: { "click": _vm.onClick } }, [_vm.icon ? _c('i', { class: _vm.icon }) : _vm._e(), _vm._v(" "), _vm._t("default")], 2);
     }, staticRenderFns: [], cssModules: { "ffshelfCategoryItem": "ffshelf-category-item__ffshelf-category-item", "ffshelf-category-item": "ffshelf-category-item__ffshelf-category-item" },
-    props: ["icon"],
+    data: function () {
+        return {
+            icon: ''
+        };
+    },
+    props: ["category"],
+    mounted: function () {
+        if (this.category.icon) {
+            this.icon = this.category.icon;
+        }
+    },
     methods: {
         onClick: function () {
-            this.$emit('click');
+            this.$emit('click', this.category);
         }
     }
 };
@@ -67,14 +72,22 @@ var item = { render: function () {
 })();
 
 var category = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-category__ffshelf-category" }, [_c('item', { attrs: { "icon": "fa fa-facebook" }, on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")]), _vm._v(" "), _c('item', { on: { "click": _vm.onItemClick } }, [_vm._v("Image")])], 1);
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-category__ffshelf-category" }, _vm._l(_vm.categories, function (category) {
+            return _c('item', { attrs: { "category": category }, on: { "click": _vm.onItemClick } }, [_vm._v(_vm._s(category.name))]);
+        }));
     }, staticRenderFns: [], cssModules: { "ffshelfCategory": "ffshelf-category__ffshelf-category", "ffshelf-category": "ffshelf-category__ffshelf-category" },
+    data: function () {
+        return {
+            categories: []
+        };
+    },
     components: {
         'item': item
     },
+    mounted: function () {},
     methods: {
-        onItemClick: function () {
-            console.log("item clicked");
+        onItemClick: function (category) {
+            console.log(category);
         }
     }
 };
@@ -195,27 +208,42 @@ var icon_thumbnail = { render: function () {
 })();
 
 var item$1 = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display-item__ffshelf-display-item", attrs: { "title": _vm.title } }, [_c('div', { staticClass: "ffshelf-display-item__item-content", class: { 'ffshelf-display-item__item-chosen': _vm.chosen }, on: { "click": _vm.onClick } }, [_c('div', { staticClass: "ffshelf-display-item__item-thumbnail" }, [_c(_vm.filetype, { tag: "component", attrs: { "thumbnail": _vm.thumbnail } })], 1), _vm._v(" "), _c('div', { staticClass: "ffshelf-display-item__item-filename" }, [_vm._t("default")], 2)])]);
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display-item__ffshelf-display-item", attrs: { "title": _vm.title } }, [_c('div', { staticClass: "ffshelf-display-item__item-content", class: { 'ffshelf-display-item__item-chosen': _vm.selected }, on: { "click": _vm.onClick } }, [_c('div', { staticClass: "ffshelf-display-item__item-thumbnail" }, [_c(_vm.filetype, { tag: "component", attrs: { "thumbnail": _vm.thumbnail } })], 1), _vm._v(" "), _c('div', { staticClass: "ffshelf-display-item__item-filename" }, [_vm._t("default")], 2)])]);
     }, staticRenderFns: [], cssModules: { "ffshelfDisplayItem": "ffshelf-display-item__ffshelf-display-item", "ffshelf-display-item": "ffshelf-display-item__ffshelf-display-item", "itemChosen": "ffshelf-display-item__item-chosen", "item-chosen": "ffshelf-display-item__item-chosen", "itemContent": "ffshelf-display-item__item-content", "item-content": "ffshelf-display-item__item-content", "itemThumbnail": "ffshelf-display-item__item-thumbnail", "item-thumbnail": "ffshelf-display-item__item-thumbnail", "itemFilename": "ffshelf-display-item__item-filename", "item-filename": "ffshelf-display-item__item-filename" },
     data: function () {
         return {
-            chosen: false
+            selected: false,
+            filetype: '',
+            thumbnail: '',
+            title: ''
         };
     },
-    props: ['filetype', 'thumbnail', 'title'],
-    mounted: function () {},
+    props: ['file'],
+    mounted: function () {
+        this.filetype = "icon_" + this.file.filetype;
+        if (this.file.thumbnail) {
+            this.thumbnail = this.file.thumbnail;
+        }
+        if (this.file.title) {
+            this.title = this.file.title;
+        }
+    },
     components: {
-        'pic': icon_thumbnail,
-        'document': icon_document,
-        'els': icon_els,
-        'ppt': icon_ppt,
-        'pdf': icon_pdf,
-        'file': icon_file
+        'icon_pic': icon_thumbnail,
+        'icon_document': icon_document,
+        'icon_els': icon_els,
+        'icon_ppt': icon_ppt,
+        'icon_pdf': icon_pdf,
+        'icon_file': icon_file
     },
     methods: {
         onClick: function () {
-            this.chosen = !this.chosen;
-            this.$emit('click');
+            this.selected = !this.selected;
+            if (this.selected) {
+                this.$emit('select', this.file);
+            } else {
+                this.$emit('cancel', this.file);
+            }
         }
     }
 };
@@ -234,13 +262,14 @@ var item$1 = { render: function () {
 
 var display = { render: function () {
         var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display__ffshelf-display" }, [_c('div', { staticClass: "ffshelf-display__item-container" }, _vm._l(_vm.files, function (file) {
-            return _c('item', { attrs: { "filetype": file.filetype, "thumbnail": file.thumbnail, "title": file.title } }, [_vm._v(" " + _vm._s(file.filename) + " ")]);
+            return _c('item', { attrs: { "file": file }, on: { "select": _vm.onSelect, "cancel": _vm.onCancel } }, [_vm._v(" " + _vm._s(file.filename) + " ")]);
         }))]);
     }, staticRenderFns: [], cssModules: { "ffshelfDisplay": "ffshelf-display__ffshelf-display", "ffshelf-display": "ffshelf-display__ffshelf-display", "itemContainer": "ffshelf-display__item-container", "item-container": "ffshelf-display__item-container" },
     props: ['url'],
     data: function () {
         return {
-            files: []
+            files: [],
+            selected: []
         };
     },
     mounted: function () {
@@ -253,6 +282,17 @@ var display = { render: function () {
     },
     components: {
         "item": item$1
+    },
+    methods: {
+        onSelect: function (file) {
+            this.selected.push(file);
+            console.log(this.selected);
+        },
+        onCancel: function (file) {
+            let index = this.selected.indexOf(file);
+            this.selected.splice(index, 1);
+            console.log(this.selected);
+        }
     }
 };
 

@@ -2,9 +2,9 @@
     <div class="ffshelf-display">
         <div class="item-container">
             <item v-for="file in files"
-                  v-bind:filetype="file.filetype"
-                  v-bind:thumbnail="file.thumbnail"
-                  v-bind:title="file.title">
+                  v-bind:file="file"
+                  v-on:select="onSelect"
+                  v-on:cancel="onCancel">
                 {{ file.filename }}
             </item>
         </div>
@@ -18,7 +18,8 @@
         props: ['url'],
         data: function() {
             return {
-                files: []
+                files: [],
+                selected: []
             }
         },
         mounted: function() {
@@ -31,6 +32,17 @@
         },
         components: {
             "item": item
+        },
+        methods: {
+            onSelect: function(file) {
+                this.selected.push(file);
+                console.log(this.selected);
+            },
+            onCancel: function(file) {
+                let index = this.selected.indexOf(file);
+                this.selected.splice(index, 1);
+                console.log(this.selected);
+            }
         }
     }
 </script>

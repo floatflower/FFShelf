@@ -1,7 +1,7 @@
 <template>
     <div class="ffshelf-display-item" v-bind:title="title">
         <div class="item-content"
-             v-bind:class="{ 'ffshelf-display-item__item-chosen': chosen }"
+             v-bind:class="{ 'ffshelf-display-item__item-chosen': selected }"
              v-on:click="onClick">
             <div class="item-thumbnail">
                 <component :is="filetype" :thumbnail="thumbnail"></component>
@@ -24,25 +24,39 @@
     export default {
         data: function() {
             return {
-                chosen: false
+                selected: false,
+                filetype: '',
+                thumbnail: '',
+                title: ''
             }
         },
-        props: ['filetype', 'thumbnail', 'title'],
+        props: ['file'],
         mounted: function() {
-
+            this.filetype = "icon_"+this.file.filetype;
+            if (this.file.thumbnail) {
+                this.thumbnail = this.file.thumbnail;
+            }
+            if (this.file.title) {
+                this.title = this.file.title;
+            }
         },
         components: {
-            'pic': icon_thumbnail,
-            'document': icon_document,
-            'els': icon_els,
-            'ppt': icon_ppt,
-            'pdf': icon_pdf,
-            'file': icon_file,
+            'icon_pic': icon_thumbnail,
+            'icon_document': icon_document,
+            'icon_els': icon_els,
+            'icon_ppt': icon_ppt,
+            'icon_pdf': icon_pdf,
+            'icon_file': icon_file,
         },
         methods: {
             onClick: function() {
-                this.chosen = !this.chosen;
-                this.$emit('click');
+                this.selected = !this.selected;
+                if (this.selected) {
+                    this.$emit('select', this.file);
+                }
+                else {
+                    this.$emit('cancel', this.file);
+                }
             }
         }
     }

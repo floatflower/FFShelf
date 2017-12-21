@@ -1,50 +1,30 @@
 <template>
     <div class="ffshelf-category">
-        <item icon="fa fa-facebook" v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-        <item v-on:click="onItemClick">Image</item>
-
+        <item v-for="category in categories"
+              v-on:click="onItemClick" v-bind:category="category">{{ category.name }}</item>
     </div>
 </template>
 
 <script>
-    import item from './ffshelf-category-item.vue';
+import item from './ffshelf-category-item.vue';
 
-    export default {
-        components: {
-            'item': item
-        },
-        methods: {
-            onItemClick: function() {
-                console.log("item clicked");
-            }
+export default {
+    data: function() {
+        return {
+            categories: []
+        }
+    },
+    components: {
+        'item': item,
+    },
+    mounted: function() {
+    },
+    methods: {
+        onItemClick: function(category) {
+            console.log(category);
         }
     }
+}
 </script>
 
 <style lang="scss" module>
