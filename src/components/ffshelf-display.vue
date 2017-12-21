@@ -39,7 +39,7 @@
                 console.log(this.selected);
             },
             onCancel: function(file) {
-                let index = this.selected.indexOf(file);
+                var index = this.selected.indexOf(file);
                 this.selected.splice(index, 1);
                 console.log(this.selected);
             }

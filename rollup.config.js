@@ -24,7 +24,7 @@ function baseConfig () {
                 ]
             }),
         ],
-        // banner: `/*!\n * Name: ${packageInfo.name}\n * Version: ${packageInfo.version}\n * Author: ${packageInfo.author}\n */`,
+        banner: `/*!\n * Name: ${packageInfo.name}\n * Version: ${packageInfo.version}\n * Author: ${packageInfo.author}\n */`,
         sourcemap: true
     }
 }
