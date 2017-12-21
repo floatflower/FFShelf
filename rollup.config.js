@@ -3,8 +3,9 @@ import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import uglify from 'rollup-plugin-uglify'
 import vue from 'rollup-plugin-vue'
-import scss from 'rollup-plugin-scss'
+import svg from 'rollup-plugin-svg'
 import packageInfo from './package.json'
+
 
 console.log("rollup..");
 
@@ -25,7 +26,8 @@ function baseConfig () {
                     '.jsx',
                     '.json'
                 ]
-            })
+            }),
+            svg()
         ],
         banner: `/*!\n * Name: ${packageInfo.name}\n * Version: ${packageInfo.version}\n * Author: ${packageInfo.author}\n */`,
         sourcemap: true,

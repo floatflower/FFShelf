@@ -1,7 +1,9 @@
 <template>
     <div class="ffshelf">
         <ffshelf-cover v-on:click="onCoverClick"></ffshelf-cover>
-        <ffshelf-dialog></ffshelf-dialog>
+        <ffshelf-dialog v-on:choose="onChoose"
+                        v-on:cancel="onCancel">
+        </ffshelf-dialog>
     </div>
 </template>
 
@@ -14,9 +16,20 @@ export default {
         'ffshelf-dialog': dialog,
         'ffshelf-cover': cover
     },
+    mounted: function() {
+    },
     methods: {
+
         onCoverClick: function() {
             console.log("cover clicked!");
+        },
+
+        onChoose: function() {
+            console.log("choose clicked!");
+        },
+
+        onCancel: function() {
+            console.log("cancel clicked!");
         }
     }
 }
@@ -30,7 +43,7 @@ export default {
     $dialog-padding: 0px;
 
     .ffshelf {
-
+        font-family: 'Titillium Web', sans-serif;
     }
 
     .ff-shelf {
