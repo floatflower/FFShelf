@@ -1,21 +1,22 @@
 <template>
-    <div class="ff-shelf">
-        <div class="dialog-frame">
-        </div>
-        <div class="dialog">
-            <div class="dialog-drawer"></div>
-            <div class="dialog-header">
-                Hello
-            </div>
-            <div class="dialog-gallery"></div>
-            <div class="dialog-close"><i class="fa fa-times" aria-hidden="true"></i></div>
-        </div>
+    <div class="ffshelf">
+        <cover></cover>
+        <dialog></dialog>
     </div>
 </template>
 
 <script>
-export default {
+import cover from './components/ffshelf-cover.vue'
+import dialog from './components/ffshelf-dialog.vue'
 
+export default {
+    components: {
+        'dialog': dialog,
+        'cover': cover
+
+    },
+    methods: {
+    }
 }
 </script>
 
@@ -26,6 +27,10 @@ export default {
     $dialog-background-color: #fff;
     $dialog-padding: 0px;
 
+    .ffshelf {
+
+    }
+
     .ff-shelf {
         font-family: 'Titillium Web', sans-serif;
         .dialog-frame {
@@ -34,8 +39,6 @@ export default {
             height: 100%;
             background: rgba(0,0,0,0.8);
             position: fixed;
-
-
 
         }
 
@@ -55,37 +58,6 @@ export default {
             z-index: 999;
             overflow: hidden;
 
-            .dialog-drawer {
-                width: 300px;
-                height: 100%;
-                position: absolute;
-                left: 0;
-                top: 0;
-                box-shadow: 0 1px 5px #ccc;
-                box-sizing: border-box;
-                z-index: 1002;
-                background-color: $dialog-background-color;
-            }
-
-            .dialog-gallery {
-                width: 660px;
-                height: 100%;
-                position: absolute;
-                left: 300px;
-                z-index: 1000;
-            }
-
-            .dialog-header {
-                position: absolute;
-                text-align: center;
-                width: 960px;
-                padding: 12px;
-                box-sizing: border-box;
-                box-shadow: 1px 0 5px #ccc;
-                z-index: 1003;
-                font-size: 16px;
-                background-color: $dialog-background-color;
-            }
 
             .dialog-close {
                 position: absolute;

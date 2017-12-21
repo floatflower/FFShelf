@@ -3,6 +3,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import uglify from 'rollup-plugin-uglify'
 import vue from 'rollup-plugin-vue'
+import scss from 'rollup-plugin-scss'
 import packageInfo from './package.json'
 
 console.log("rollup..");
@@ -60,8 +61,7 @@ configMin.plugins.push(
     })
 );
 
-
 module.exports = [
-  config,
-  configMin
+    config,
+    configMin
 ];
