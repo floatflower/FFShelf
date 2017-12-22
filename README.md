@@ -38,7 +38,7 @@ If you have good idea with this project, please contact me, I will be glad to se
 </script>
 ```
 3. And press the button, you will get this:
-![FFShelf demo](https://i.imgur.com/bGTRJlK.gifv)
+![FFShelf demo](https://i.imgur.com/bGTRJlK.gif)
 
 ### Data should return from category-url
 Some data is required in response body:
