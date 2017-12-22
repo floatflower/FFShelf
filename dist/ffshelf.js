@@ -35,7 +35,7 @@ var cover = { render: function () {
     if (typeof document !== 'undefined') {
         var head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style'),
-            css = ".ffshelf-category-item__ffshelf-category-item { width: 200px; float: left; padding: 10px; box-sizing: border-box; border-radius: 3px; transition: background-color 0.5s; overflow: hidden; } .ffshelf-category-item__ffshelf-category-item:hover { background-color: #ECEFF1; } .ffshelf-category-item__ffshelf-category-item i { font-size: 14px; margin-right: 6px; } ";style.type = 'text/css';if (style.styleSheet) {
+            css = ".ffshelf-category-item__ffshelf-category-item { width: 200px; float: left; padding: 10px; box-sizing: border-box; border-radius: 3px; transition: background-color 0.5s; overflow: hidden; cursor: pointer; } .ffshelf-category-item__ffshelf-category-item:hover { background-color: #ECEFF1; } .ffshelf-category-item__ffshelf-category-item i { font-size: 14px; margin-right: 6px; } ";style.type = 'text/css';if (style.styleSheet) {
             style.styleSheet.cssText = css;
         } else {
             style.appendChild(document.createTextNode(css));
@@ -381,7 +381,7 @@ var thumbnail = { render: function () {
 })();
 
 var item$1 = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display-item__ffshelf-display-item", attrs: { "title": _vm.title } }, [_c('div', { staticClass: "ffshelf-display-item__item-content", class: { 'ffshelf-display-item__item-chosen': _vm.selected }, on: { "click": _vm.onClick } }, [_c('thumbnail', { attrs: { "src": _vm.file.thumbnail, "type": _vm.file.filetype } }), _vm._v(" "), _c('div', { staticClass: "ffshelf-display-item__item-filename" }, [_vm._t("default")], 2)], 1)]);
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display-item__ffshelf-display-item", attrs: { "title": _vm.title } }, [_c('div', { staticClass: "ffshelf-display-item__item-content", class: { 'ffshelf-display-item__item-chosen': _vm.selected }, on: { "click": _vm.onClick } }, [_c('thumbnail', { attrs: { "src": _vm.file.thumbnail, "type": _vm.file.type } }), _vm._v(" "), _c('div', { staticClass: "ffshelf-display-item__item-filename" }, [_vm._t("default")], 2)], 1)]);
     }, staticRenderFns: [], cssModules: { "ffshelfDisplayItem": "ffshelf-display-item__ffshelf-display-item", "ffshelf-display-item": "ffshelf-display-item__ffshelf-display-item", "itemChosen": "ffshelf-display-item__item-chosen", "item-chosen": "ffshelf-display-item__item-chosen", "itemContent": "ffshelf-display-item__item-content", "item-content": "ffshelf-display-item__item-content", "itemFilename": "ffshelf-display-item__item-filename", "item-filename": "ffshelf-display-item__item-filename" },
     data: function () {
         return {
@@ -403,7 +403,6 @@ var item$1 = { render: function () {
         onClick: function () {
             this.file.selected = !this.file.selected;
             this.selected = this.file.selected;
-            // console.log(this.file.selected);
             if (this.file.selected) {
                 this.file.selected = true;
                 this.$emit('select', this.file);
@@ -429,7 +428,7 @@ var item$1 = { render: function () {
 
 var display = { render: function () {
         var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-display__ffshelf-display" }, [_c('div', { staticClass: "ffshelf-display__item-container" }, _vm._l(_vm.files, function (file) {
-            return _c('item', { attrs: { "file": file }, on: { "select": _vm.onSelect, "cancel": _vm.onCancel } }, [_vm._v(" " + _vm._s(file.filename) + " ")]);
+            return _c('item', { attrs: { "file": file }, on: { "select": _vm.onSelect, "cancel": _vm.onCancel } }, [_vm._v(" " + _vm._s(file.name) + " ")]);
         }))]);
     }, staticRenderFns: [], cssModules: { "ffshelfDisplay": "ffshelf-display__ffshelf-display", "ffshelf-display": "ffshelf-display__ffshelf-display", "itemContainer": "ffshelf-display__item-container", "item-container": "ffshelf-display__item-container" },
     props: ['category'],
@@ -444,15 +443,12 @@ var display = { render: function () {
         category: function (val) {
 
             if (!this.cache[val.id]) {
-                // console.log("request from server!");
                 var getUrl = val.getUrl;
                 this.$http.get(getUrl).then(function (response) {
                     this.files = eval(response.body);
                     this.cache[val.id] = this.files;
-                    // console.log(this.cache);
                 }, function (response) {});
             } else {
-                // console.log("loaded from cache!");
                 this.files = this.cache[val.id];
             }
         }
@@ -513,12 +509,10 @@ var dialog = { render: function () {
         },
         onSelectFile: function (file) {
             this.selected.push(file);
-            // console.log(this.selected);
         },
         onCancelFile: function (file) {
             var index = this.selected.indexOf(file);
             this.selected.splice(index, 1);
-            // console.log(this.selected);
         },
         getSelectedFile: function () {
             return this.selected;

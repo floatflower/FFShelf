@@ -5,7 +5,7 @@
                   v-bind:file="file"
                   v-on:select="onSelect"
                   v-on:cancel="onCancel">
-                {{ file.filename }}
+                {{ file.name }}
             </item>
         </div>
     </div>
@@ -27,18 +27,15 @@
             category: function(val) {
 
                 if (!this.cache[val.id]) {
-                    // console.log("request from server!");
                     var getUrl = val.getUrl;
                     this.$http.get(getUrl).then(function (response) {
                         this.files = eval(response.body);
                         this.cache[val.id] = this.files;
-                        // console.log(this.cache);
                     }, function (response) {
 
                     });
                 }
                 else {
-                    // console.log("loaded from cache!");
                     this.files = this.cache[val.id];
                 }
             }

@@ -1,6 +1,6 @@
 {
   "name": "ffshelf",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A popup box for selecting files on web",
   "main": "index.js",
   "scripts": {

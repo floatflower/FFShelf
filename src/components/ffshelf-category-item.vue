@@ -35,7 +35,7 @@ export default {
         border-radius: 3px;
         transition: background-color 0.5s;
         overflow: hidden;
-
+        cursor: pointer;
         &:hover {
             background-color: #ECEFF1;
         }

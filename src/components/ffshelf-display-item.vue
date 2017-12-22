@@ -3,7 +3,7 @@
         <div class="item-content"
              v-bind:class="{ 'ffshelf-display-item__item-chosen': selected }"
              v-on:click="onClick">
-            <thumbnail :src="file.thumbnail" v-bind:type="file.filetype"></thumbnail>
+            <thumbnail :src="file.thumbnail" v-bind:type="file.type"></thumbnail>
             <div class="item-filename">
                 <slot></slot>
             </div>
@@ -37,7 +37,6 @@
             onClick: function() {
                 this.file.selected = !this.file.selected;
                 this.selected = this.file.selected;
-                // console.log(this.file.selected);
                 if (this.file.selected) {
                     this.file.selected = true;
                     this.$emit('select', this.file);

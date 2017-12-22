@@ -14,7 +14,7 @@
 </head>
 <body>
 <div id="app">
-    <div v-for="file in selectedFiles">{{ file.fileurl }}</div>
+    <div v-for="file in selectedFiles">{{ file.url }}</div>
     <button v-on:click="openFFshelf">Open</button>
     <ffshelf category-url="http://localhost:3000/categories" v-on:confirm="onConfirm" ref="instance1"></ffshelf>
 </div>

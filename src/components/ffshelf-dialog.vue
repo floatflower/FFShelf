@@ -43,12 +43,10 @@
             },
             onSelectFile: function(file) {
                 this.selected.push(file);
-                // console.log(this.selected);
             },
             onCancelFile: function(file) {
                 var index = this.selected.indexOf(file);
                 this.selected.splice(index, 1);
-                // console.log(this.selected);
             },
             getSelectedFile: function() {
                 return this.selected;
