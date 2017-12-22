@@ -15,21 +15,36 @@
     import item from './ffshelf-display-item.vue';
 
     export default {
-        props: ['url'],
+        props: ['category'],
         data: function() {
             return {
                 files: [],
-                selected: []
+                selected: [],
+                cache: {}
+            }
+        },
+        watch: {
+            category: function(val) {
+
+                if (!this.cache[val.id]) {
+                    // console.log("request from server!");
+                    var getUrl = val.getUrl;
+                    this.$http.get(getUrl).then(function (response) {
+                        this.files = eval(response.body);
+                        this.cache[val.id] = this.files;
+                        // console.log(this.cache);
+                    }, function (response) {
+
+                    });
+                }
+                else {
+                    // console.log("loaded from cache!");
+                    this.files = this.cache[val.id];
+                }
             }
         },
         mounted: function() {
-            if (this.url) {
-                this.$http.get(this.url).then(function(response) {
-                    this.files = eval(response.body);
-                }, function(response) {
 
-                })
-            }
         },
         components: {
             "item": item

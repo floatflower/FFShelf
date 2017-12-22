@@ -11,6 +11,7 @@
 import item from './ffshelf-category-item.vue';
 
 export default {
+    props: ["url"],
     data: function() {
         return {
             categories: []
@@ -20,14 +21,16 @@ export default {
         'item': item,
     },
     mounted: function() {
-        this.$http.get("http://localhost:3000/categories").then(function(response) {
-            this.categories = eval(response.body);
-        }, function(response) {
-        });
+        if (this.url) {
+            this.$http.get(this.url).then(function (response) {
+                this.categories = eval(response.body);
+            }, function (response) {
+            });
+        }
     },
     methods: {
         onItemClick: function(category) {
-            console.log(category);
+            this.$emit('select', category);
         }
     }
 }

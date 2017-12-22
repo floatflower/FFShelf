@@ -81,6 +81,7 @@ var category = { render: function () {
             return _c('item', { attrs: { "category": category }, on: { "click": _vm.onItemClick } }, [_vm._v(" " + _vm._s(category.name) + " ")]);
         }));
     }, staticRenderFns: [], cssModules: { "ffshelfCategory": "ffshelf-category__ffshelf-category", "ffshelf-category": "ffshelf-category__ffshelf-category" },
+    props: ["url"],
     data: function () {
         return {
             categories: []
@@ -90,13 +91,15 @@ var category = { render: function () {
         'item': item
     },
     mounted: function () {
-        this.$http.get("http://localhost:3000/categories").then(function (response) {
-            this.categories = eval(response.body);
-        }, function (response) {});
+        if (this.url) {
+            this.$http.get(this.url).then(function (response) {
+                this.categories = eval(response.body);
+            }, function (response) {});
+        }
     },
     methods: {
         onItemClick: function (category) {
-            console.log(category);
+            this.$emit('select', category);
         }
     }
 };
@@ -333,7 +336,7 @@ var thumbnail = { render: function () {
         };
     },
     mounted: function () {
-        if (this.src && this.src !== '' && this.src.length != 0) {
+        if (this.src && this.src !== '' && this.src.length !== 0) {
             // if src defined
             this.thumbnailSrc = this.src;
             this.hasThumbnail = true;
@@ -390,15 +393,22 @@ var item$1 = { render: function () {
     },
     props: ['file'],
     mounted: function () {},
+    updated: function () {
+        this.selected = this.file.selected;
+    },
     components: {
         'thumbnail': thumbnail
     },
     methods: {
         onClick: function () {
-            this.selected = !this.selected;
-            if (this.selected) {
+            this.file.selected = !this.file.selected;
+            this.selected = this.file.selected;
+            // console.log(this.file.selected);
+            if (this.file.selected) {
+                this.file.selected = true;
                 this.$emit('select', this.file);
             } else {
+                this.file.selected = false;
                 this.$emit('cancel', this.file);
             }
         }
@@ -422,32 +432,44 @@ var display = { render: function () {
             return _c('item', { attrs: { "file": file }, on: { "select": _vm.onSelect, "cancel": _vm.onCancel } }, [_vm._v(" " + _vm._s(file.filename) + " ")]);
         }))]);
     }, staticRenderFns: [], cssModules: { "ffshelfDisplay": "ffshelf-display__ffshelf-display", "ffshelf-display": "ffshelf-display__ffshelf-display", "itemContainer": "ffshelf-display__item-container", "item-container": "ffshelf-display__item-container" },
-    props: ['url'],
+    props: ['category'],
     data: function () {
         return {
             files: [],
-            selected: []
+            selected: [],
+            cache: {}
         };
     },
-    mounted: function () {
-        if (this.url) {
-            this.$http.get(this.url).then(function (response) {
-                this.files = eval(response.body);
-            }, function (response) {});
+    watch: {
+        category: function (val) {
+
+            if (!this.cache[val.id]) {
+                // console.log("request from server!");
+                var getUrl = val.getUrl;
+                this.$http.get(getUrl).then(function (response) {
+                    this.files = eval(response.body);
+                    this.cache[val.id] = this.files;
+                    // console.log(this.cache);
+                }, function (response) {});
+            } else {
+                // console.log("loaded from cache!");
+                this.files = this.cache[val.id];
+            }
         }
     },
+    mounted: function () {},
     components: {
         "item": item$1
     },
     methods: {
         onSelect: function (file) {
             this.selected.push(file);
-            console.log(this.selected);
+            this.$emit('select', file);
         },
         onCancel: function (file) {
             var index = this.selected.indexOf(file);
             this.selected.splice(index, 1);
-            console.log(this.selected);
+            this.$emit('cancel', file);
         }
     }
 };
@@ -456,7 +478,7 @@ var display = { render: function () {
     if (typeof document !== 'undefined') {
         var head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style'),
-            css = ".ffshelf-dialog__ffshelf-dialog { top: 50%; left: 50%; position: fixed; z-index: 1000; width: 960px; height: 640px; background-color: #fff; margin: -320px 0 0 -480px; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle { bottom: 0; left: 0; width: 960px; position: absolute; padding: 10px; box-sizing: border-box; border-top: 1px solid #e6e6e6; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__chosen, .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__cancel { float: right; padding: 0 20px; height: 36px; border-radius: 3px; font-size: 14px; transition: background-color 1s; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__chosen { background-color: #BBDEFB; border: 1px solid #5baff5; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__chosen:hover { background-color: #5baff5; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__cancel { background-color: #ECEFF1; margin: 0 10px; border: 1px solid #b1bec6; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__cancel:hover { background-color: #b1bec6; } ";style.type = 'text/css';if (style.styleSheet) {
+            css = ".ffshelf-dialog__ffshelf-dialog { top: 50%; left: 50%; position: fixed; z-index: 1000; width: 960px; height: 640px; background-color: #fff; margin: -320px 0 0 -480px; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle { bottom: 0; left: 0; width: 960px; position: absolute; padding: 10px; box-sizing: border-box; border-top: 1px solid #e6e6e6; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__confirm, .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__cancel { float: right; padding: 0 20px; height: 36px; border-radius: 3px; font-size: 14px; transition: background-color 1s; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__confirm { background-color: #BBDEFB; border: 1px solid #5baff5; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__confirm:hover { background-color: #5baff5; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__cancel { background-color: #ECEFF1; margin: 0 10px; border: 1px solid #b1bec6; } .ffshelf-dialog__ffshelf-dialog .ffshelf-dialog__ffshelf-toggle button.ffshelf-dialog__cancel:hover { background-color: #b1bec6; } ";style.type = 'text/css';if (style.styleSheet) {
             style.styleSheet.cssText = css;
         } else {
             style.appendChild(document.createTextNode(css));
@@ -465,21 +487,41 @@ var display = { render: function () {
 })();
 
 var dialog = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-dialog__ffshelf-dialog" }, [_c('category'), _vm._v(" "), _c('display', { attrs: { "url": "http://localhost:3000/categories/3" } }), _vm._v(" "), _c('div', { staticClass: "ffshelf-dialog__ffshelf-toggle" }, [_c('button', { staticClass: "ffshelf-dialog__chosen", on: { "click": _vm.onChoose } }, [_vm._v("選擇")]), _vm._v(" "), _c('button', { staticClass: "ffshelf-dialog__cancel", on: { "click": _vm.onCancel } }, [_vm._v("取消")])])], 1);
-    }, staticRenderFns: [], cssModules: { "ffshelfDialog": "ffshelf-dialog__ffshelf-dialog", "ffshelf-dialog": "ffshelf-dialog__ffshelf-dialog", "ffshelfToggle": "ffshelf-dialog__ffshelf-toggle", "ffshelf-toggle": "ffshelf-dialog__ffshelf-toggle", "chosen": "ffshelf-dialog__chosen", "cancel": "ffshelf-dialog__cancel" },
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf-dialog__ffshelf-dialog" }, [_c('category', { attrs: { "url": _vm.categoryUrl }, on: { "select": _vm.onCategorySelect } }), _vm._v(" "), _c('display', { attrs: { "category": _vm.displayCategory }, on: { "select": _vm.onSelectFile, "cancel": _vm.onCancelFile } }), _vm._v(" "), _c('div', { staticClass: "ffshelf-dialog__ffshelf-toggle" }, [_c('button', { staticClass: "ffshelf-dialog__confirm", on: { "click": _vm.onConfirm } }, [_vm._v("選擇")]), _vm._v(" "), _c('button', { staticClass: "ffshelf-dialog__cancel", on: { "click": _vm.onCancel } }, [_vm._v("取消")])])], 1);
+    }, staticRenderFns: [], cssModules: { "ffshelfDialog": "ffshelf-dialog__ffshelf-dialog", "ffshelf-dialog": "ffshelf-dialog__ffshelf-dialog", "ffshelfToggle": "ffshelf-dialog__ffshelf-toggle", "ffshelf-toggle": "ffshelf-dialog__ffshelf-toggle", "confirm": "ffshelf-dialog__confirm", "cancel": "ffshelf-dialog__cancel" },
+    props: ['categoryUrl'],
     data: function () {
-        return {};
+        return {
+            displayCategory: '',
+            selected: []
+        };
     },
+    mounted: function () {},
     components: {
         'category': category,
         'display': display
     },
     methods: {
-        onChoose: function () {
-            this.$emit('choose');
+        onConfirm: function () {
+            this.$emit('confirm');
         },
         onCancel: function () {
             this.$emit('cancel');
+        },
+        onCategorySelect: function (category$$1) {
+            this.displayCategory = category$$1;
+        },
+        onSelectFile: function (file) {
+            this.selected.push(file);
+            // console.log(this.selected);
+        },
+        onCancelFile: function (file) {
+            var index = this.selected.indexOf(file);
+            this.selected.splice(index, 1);
+            // console.log(this.selected);
+        },
+        getSelectedFile: function () {
+            return this.selected;
         }
     }
 };
@@ -497,12 +539,12 @@ var dialog = { render: function () {
 })();
 
 var ffshelf$2 = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('transition', { attrs: { "name": "ffshelf__fade" } }, [_vm.show ? _c('div', { staticClass: "ffshelf__ffshelf" }, [_vm.show ? _c('ffshelf-cover', { on: { "click": _vm.onCoverClick } }) : _vm._e(), _vm._v(" "), _vm.show ? _c('ffshelf-dialog', { on: { "choose": _vm.onChoose, "cancel": _vm.onCancel } }) : _vm._e()], 1) : _vm._e()]);
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('transition', { attrs: { "name": "ffshelf__fade" } }, [_vm.show ? _c('div', { staticClass: "ffshelf__ffshelf" }, [_vm.show ? _c('ffshelf-cover', { on: { "click": _vm.onCoverClick } }) : _vm._e(), _vm._v(" "), _vm.show ? _c('ffshelf-dialog', { ref: "dialog", attrs: { "category-url": _vm.categoryUrl }, on: { "confirm": _vm.onConfirm, "cancel": _vm.onCancel } }) : _vm._e()], 1) : _vm._e()]);
     }, staticRenderFns: [], cssModules: { "fadeEnterActive": "ffshelf__fade-enter-active", "fade-enter-active": "ffshelf__fade-enter-active", "fadeLeaveActive": "ffshelf__fade-leave-active", "fade-leave-active": "ffshelf__fade-leave-active", "fadeEnter": "ffshelf__fade-enter", "fade-enter": "ffshelf__fade-enter", "fadeLeaveTo": "ffshelf__fade-leave-to", "fade-leave-to": "ffshelf__fade-leave-to", "ffshelf": "ffshelf__ffshelf" },
     data: function () {
         return {};
     },
-    props: ['url', 'show'],
+    props: ['categoryUrl', 'show'],
     components: {
         'ffshelf-dialog': dialog,
         'ffshelf-cover': cover
@@ -520,8 +562,10 @@ var ffshelf$2 = { render: function () {
             this.show = false;
         },
 
-        onChoose: function () {
-            console.log("choose clicked!");
+        onConfirm: function () {
+            var files = this.$refs["dialog"].getSelectedFile();
+            this.$emit('confirm', files);
+            this.show = false;
         },
 
         onCancel: function () {

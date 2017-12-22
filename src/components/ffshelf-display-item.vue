@@ -27,16 +27,23 @@
         mounted: function() {
 
         },
+        updated: function() {
+            this.selected = this.file.selected;
+        },
         components: {
             'thumbnail': thumbnail
         },
         methods: {
             onClick: function() {
-                this.selected = !this.selected;
-                if (this.selected) {
+                this.file.selected = !this.file.selected;
+                this.selected = this.file.selected;
+                // console.log(this.file.selected);
+                if (this.file.selected) {
+                    this.file.selected = true;
                     this.$emit('select', this.file);
                 }
                 else {
+                    this.file.selected = false;
                     this.$emit('cancel', this.file);
                 }
             }

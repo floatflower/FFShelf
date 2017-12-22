@@ -2,9 +2,11 @@
     <transition name="ffshelf__fade">
         <div class="ffshelf" v-if="show" >
             <ffshelf-cover v-if="show" v-on:click="onCoverClick"></ffshelf-cover>
-            <ffshelf-dialog v-on:choose="onChoose"
+            <ffshelf-dialog v-on:confirm="onConfirm"
                             v-on:cancel="onCancel"
-                            v-if="show">
+                            v-bind:category-url="categoryUrl"
+                            v-if="show"
+                            ref="dialog">
             </ffshelf-dialog>
         </div>
     </transition>
@@ -17,15 +19,15 @@ import dialog from './components/ffshelf-dialog.vue'
 export default {
     data: function() {
         return {
-            selected: []
         }
     },
-    props: ['url', 'show'],
+    props: ['categoryUrl', 'show'],
     components: {
         'ffshelf-dialog': dialog,
         'ffshelf-cover': cover
     },
     mounted: function() {
+
     },
     methods: {
         open: function() {
@@ -39,8 +41,10 @@ export default {
             this.show = false;
         },
 
-        onChoose: function() {
-            console.log("choose clicked!");
+        onConfirm: function() {
+            var files = this.$refs["dialog"].getSelectedFile();
+            this.$emit('confirm', files);
+            this.show = false;
         },
 
         onCancel: function() {

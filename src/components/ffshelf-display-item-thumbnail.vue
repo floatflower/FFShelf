@@ -34,7 +34,7 @@
             }
         },
         mounted: function() {
-            if (this.src && this.src !== '' && this.src.length != 0) {
+            if (this.src && this.src !== '' && this.src.length !== 0) {
                 // if src defined
                 this.thumbnailSrc = this.src;
                 this.hasThumbnail = true;

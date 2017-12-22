@@ -1,9 +1,12 @@
 <template>
     <div class="ffshelf-dialog">
-        <category></category>
-        <display url="http://localhost:3000/categories/3"></display>
+        <category v-on:select="onCategorySelect"
+                  v-bind:url="categoryUrl"></category>
+        <display v-bind:category="displayCategory"
+                 v-on:select="onSelectFile"
+                 v-on:cancel="onCancelFile"></display>
         <div class="ffshelf-toggle">
-            <button class="chosen" v-on:click="onChoose">選擇</button>
+            <button class="confirm" v-on:click="onConfirm">選擇</button>
             <button class="cancel" v-on:click="onCancel">取消</button>
         </div>
     </div>
@@ -15,20 +18,40 @@
     import display from './ffshelf-display.vue'
 
     export default {
+        props: ['categoryUrl'],
         data: function() {
             return {
+                displayCategory: '',
+                selected: []
             }
+        },
+        mounted: function() {
         },
         components: {
             'category': category,
             'display': display
         },
         methods: {
-            onChoose: function() {
-                this.$emit('choose');
+            onConfirm: function() {
+                this.$emit('confirm');
             },
             onCancel: function() {
                 this.$emit('cancel');
+            },
+            onCategorySelect: function(category) {
+                this.displayCategory = category;
+            },
+            onSelectFile: function(file) {
+                this.selected.push(file);
+                // console.log(this.selected);
+            },
+            onCancelFile: function(file) {
+                var index = this.selected.indexOf(file);
+                this.selected.splice(index, 1);
+                // console.log(this.selected);
+            },
+            getSelectedFile: function() {
+                return this.selected;
             }
         }
     }
@@ -60,7 +83,7 @@
             border-top: 1px solid darken($dialog-background-color, 10%);
 
 
-            button.chosen, button.cancel {
+            button.confirm, button.cancel {
                 float: right;
                 padding: 0 20px;
                 height: 36px;
@@ -69,7 +92,7 @@
                 transition: background-color 1s;
             }
 
-            button.chosen {
+            button.confirm {
                 background-color: #BBDEFB;
                 border: 1px solid darken(#BBDEFB, 20%);
 
