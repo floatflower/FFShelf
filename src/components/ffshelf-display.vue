@@ -37,12 +37,12 @@
         methods: {
             onSelect: function(file) {
                 this.selected.push(file);
-                console.log(this.selected);
+                this.$emit('select', file)
             },
             onCancel: function(file) {
                 var index = this.selected.indexOf(file);
                 this.selected.splice(index, 1);
-                console.log(this.selected);
+                this.$emit('cancel', file);
             }
         }
     }

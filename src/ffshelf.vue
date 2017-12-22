@@ -17,6 +17,7 @@ import dialog from './components/ffshelf-dialog.vue'
 export default {
     data: function() {
         return {
+            selected: []
         }
     },
     props: ['url', 'show'],
