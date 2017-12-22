@@ -1,7 +1,7 @@
 <template>
     <div class="ffshelf-dialog">
         <category></category>
-        <display></display>
+        <display url="http://localhost:3000/categories/3"></display>
         <div class="ffshelf-toggle">
             <button class="chosen" v-on:click="onChoose">選擇</button>
             <button class="cancel" v-on:click="onCancel">取消</button>

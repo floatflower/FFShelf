@@ -3,9 +3,7 @@
         <div class="item-content"
              v-bind:class="{ 'ffshelf-display-item__item-chosen': selected }"
              v-on:click="onClick">
-            <div class="item-thumbnail">
-                <component :is="filetype" :thumbnail="thumbnail"></component>
-            </div>
+            <thumbnail :src="file.thumbnail" v-bind:type="file.filetype"></thumbnail>
             <div class="item-filename">
                 <slot></slot>
             </div>
@@ -14,39 +12,23 @@
 </template>
 
 <script>
-    import icon_document from './icons/icon_document.vue';
-    import icon_els from './icons/icon_els.vue';
-    import icon_ppt from './icons/icon_ppt.vue';
-    import icon_pdf from './icons/icon_pdf.vue';
-    import icon_file from './icons/icon_file.vue';
-    import icon_thumbnail from './icons/icon_thumbnail.vue';
+    import thumbnail from './ffshelf-display-item-thumbnail.vue';
 
     export default {
         data: function() {
             return {
                 selected: false,
                 filetype: '',
-                thumbnail: '',
+                thumbnailSrc: '',
                 title: ''
             }
         },
         props: ['file'],
         mounted: function() {
-            this.filetype = "icon_"+this.file.filetype;
-            if (this.file.thumbnail) {
-                this.thumbnail = this.file.thumbnail;
-            }
-            if (this.file.title) {
-                this.title = this.file.title;
-            }
+
         },
         components: {
-            'icon_pic': icon_thumbnail,
-            'icon_document': icon_document,
-            'icon_els': icon_els,
-            'icon_ppt': icon_ppt,
-            'icon_pdf': icon_pdf,
-            'icon_file': icon_file,
+            'thumbnail': thumbnail
         },
         methods: {
             onClick: function() {
@@ -80,20 +62,10 @@
             transition: background-color 0.5s;
             cursor: pointer;
 
-            .item-thumbnail {
-                width: 80px;
-                height: 80px;
-                margin: 0 auto 10px auto;
-                svg, img {
-                    width: 100%;
-                    max-height: 100%;
-                    overflow: hidden;
-                }
-            }
-
             .item-filename {
                 width: 100%;
-                overflow: hidden;
+                overflow-x: hidden;
+                padding: 5px 0;
             }
 
             width: 100%;

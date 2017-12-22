@@ -12,6 +12,7 @@ import cover from './components/ffshelf-cover.vue'
 import dialog from './components/ffshelf-dialog.vue'
 
 export default {
+    props: ['url'],
     components: {
         'ffshelf-dialog': dialog,
         'ffshelf-cover': cover

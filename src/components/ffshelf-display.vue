@@ -23,12 +23,13 @@
             }
         },
         mounted: function() {
-            this.files.push({filetype:"document", filename: "Document", title: "Hello"});
-            this.files.push({filetype:"els", filename: "Excel File"});
-            this.files.push({filetype:"ppt", filename: "PowerPoint"});
-            this.files.push({filetype:"pdf", filename: "PDF"});
-            this.files.push({filetype:"file", filename: "the name has been overflow"});
-            this.files.push({filetype:"pic", filename: "Picture", thumbnail: "https://lh3.googleusercontent.com/dB3Dvgf3VIglusoGJAfpNUAANhTXW8K9mvIsiIPkhJUAbAKGKJcEMPTf0mkSexzLM5o=w300"});
+            if (this.url) {
+                this.$http.get(this.url).then(function(response) {
+                    this.files = eval(response.body);
+                }, function(response) {
+
+                })
+            }
         },
         components: {
             "item": item
