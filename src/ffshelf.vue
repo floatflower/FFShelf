@@ -1,10 +1,13 @@
 <template>
-    <div class="ffshelf">
-        <ffshelf-cover v-on:click="onCoverClick"></ffshelf-cover>
-        <ffshelf-dialog v-on:choose="onChoose"
-                        v-on:cancel="onCancel">
-        </ffshelf-dialog>
-    </div>
+    <transition name="ffshelf__fade">
+        <div class="ffshelf" v-if="show" >
+            <ffshelf-cover v-if="show" v-on:click="onCoverClick"></ffshelf-cover>
+            <ffshelf-dialog v-on:choose="onChoose"
+                            v-on:cancel="onCancel"
+                            v-if="show">
+            </ffshelf-dialog>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -12,7 +15,11 @@ import cover from './components/ffshelf-cover.vue'
 import dialog from './components/ffshelf-dialog.vue'
 
 export default {
-    props: ['url'],
+    data: function() {
+        return {
+        }
+    },
+    props: ['url', 'show'],
     components: {
         'ffshelf-dialog': dialog,
         'ffshelf-cover': cover
@@ -20,9 +27,15 @@ export default {
     mounted: function() {
     },
     methods: {
+        open: function() {
+            this.show = true
+        },
+        close: function() {
+            this.show = false;
+        },
 
         onCoverClick: function() {
-            console.log("cover clicked!");
+            this.show = false;
         },
 
         onChoose: function() {
@@ -30,13 +43,15 @@ export default {
         },
 
         onCancel: function() {
-            console.log("cancel clicked!");
+            this.show = false;
         }
     }
 }
 </script>
 
 <style lang="scss" module>
+
+    @import "./stylesheets/ffshelf.scss";
     @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
     $dialog-width: 960px;
     $dialog-height: 600px;
@@ -45,56 +60,10 @@ export default {
 
     .ffshelf {
         font-family: 'Titillium Web', sans-serif;
-    }
-
-    .ff-shelf {
-        font-family: 'Titillium Web', sans-serif;
-        .dialog-frame {
-
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            position: fixed;
-
-        }
-
-        .dialog {
-
-            width: $dialog-width;
-            height: $dialog-height;
-            background: $dialog-background-color;
-            padding: $dialog-padding;
-            border: none;
-            margin: -1 * ($dialog-height/2) 0 0 -1*($dialog-width/2);
-            top: 50%;
-            left: 50%;
-            position: fixed;
-            box-sizing: border-box;
-            border-radius: 3px;
-            z-index: 999;
-            overflow: hidden;
-
-
-            .dialog-close {
-                position: absolute;
-                right: 0;
-                top: 0;
-                margin: 10px 15px;
-                color: #aaa;
-
-                i {
-                    font-size: 12px;
-                }
-
-                &:hover {
-                    color: #333;
-                }
-
-                z-index: 1004;
-
-            }
-
-        }
-
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        float: left;
     }
 </style>

@@ -13,7 +13,7 @@
     if (typeof document !== 'undefined') {
         var head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style'),
-            css = ".ffshelf-cover__ffshelf-cover { width: 100%; height: 100%; position: fixed; background-color: rgba(0, 0, 0, 0.7); z-index: 999; } ";style.type = 'text/css';if (style.styleSheet) {
+            css = ".ffshelf-cover__ffshelf-cover { width: 100%; height: 100%; position: fixed; top: 0; left: 0; background-color: rgba(0, 0, 0, 0.7); z-index: 999; } ";style.type = 'text/css';if (style.styleSheet) {
             style.styleSheet.cssText = css;
         } else {
             style.appendChild(document.createTextNode(css));
@@ -488,7 +488,7 @@ var dialog = { render: function () {
     if (typeof document !== 'undefined') {
         var head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style'),
-            css = "@import url(\"https://fonts.googleapis.com/css?family=Titillium+Web\"); .ffshelf__ffshelf { font-family: 'Titillium Web', sans-serif; } .ffshelf__ff-shelf { font-family: 'Titillium Web', sans-serif; } .ffshelf__ff-shelf .ffshelf__dialog-frame { width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); position: fixed; } .ffshelf__ff-shelf .ffshelf__dialog { width: 960px; height: 600px; background: #fff; padding: 0px; border: none; margin: -300px 0 0 -480px; top: 50%; left: 50%; position: fixed; box-sizing: border-box; border-radius: 3px; z-index: 999; overflow: hidden; } .ffshelf__ff-shelf .ffshelf__dialog .ffshelf__dialog-close { position: absolute; right: 0; top: 0; margin: 10px 15px; color: #aaa; z-index: 1004; } .ffshelf__ff-shelf .ffshelf__dialog .ffshelf__dialog-close i { font-size: 12px; } .ffshelf__ff-shelf .ffshelf__dialog .ffshelf__dialog-close:hover { color: #333; } ";style.type = 'text/css';if (style.styleSheet) {
+            css = "@import url(\"https://fonts.googleapis.com/css?family=Titillium+Web\"); .ffshelf__fade-enter-active, .ffshelf__fade-leave-active { transition: opacity .5s; } .ffshelf__fade-enter, .ffshelf__fade-leave-to { opacity: 0; } .ffshelf__ffshelf { font-family: 'Titillium Web', sans-serif; width: 100%; height: 100%; position: fixed; top: 0; float: left; } ";style.type = 'text/css';if (style.styleSheet) {
             style.styleSheet.cssText = css;
         } else {
             style.appendChild(document.createTextNode(css));
@@ -497,18 +497,27 @@ var dialog = { render: function () {
 })();
 
 var ffshelf$2 = { render: function () {
-        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "ffshelf__ffshelf" }, [_c('ffshelf-cover', { on: { "click": _vm.onCoverClick } }), _vm._v(" "), _c('ffshelf-dialog', { on: { "choose": _vm.onChoose, "cancel": _vm.onCancel } })], 1);
-    }, staticRenderFns: [], cssModules: { "ffshelf": "ffshelf__ffshelf", "ffShelf": "ffshelf__ff-shelf", "ff-shelf": "ffshelf__ff-shelf", "dialogFrame": "ffshelf__dialog-frame", "dialog-frame": "ffshelf__dialog-frame", "dialog": "ffshelf__dialog", "dialogClose": "ffshelf__dialog-close", "dialog-close": "ffshelf__dialog-close" },
-    props: ['url'],
+        var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('transition', { attrs: { "name": "ffshelf__fade" } }, [_vm.show ? _c('div', { staticClass: "ffshelf__ffshelf" }, [_vm.show ? _c('ffshelf-cover', { on: { "click": _vm.onCoverClick } }) : _vm._e(), _vm._v(" "), _vm.show ? _c('ffshelf-dialog', { on: { "choose": _vm.onChoose, "cancel": _vm.onCancel } }) : _vm._e()], 1) : _vm._e()]);
+    }, staticRenderFns: [], cssModules: { "fadeEnterActive": "ffshelf__fade-enter-active", "fade-enter-active": "ffshelf__fade-enter-active", "fadeLeaveActive": "ffshelf__fade-leave-active", "fade-leave-active": "ffshelf__fade-leave-active", "fadeEnter": "ffshelf__fade-enter", "fade-enter": "ffshelf__fade-enter", "fadeLeaveTo": "ffshelf__fade-leave-to", "fade-leave-to": "ffshelf__fade-leave-to", "ffshelf": "ffshelf__ffshelf" },
+    data: function () {
+        return {};
+    },
+    props: ['url', 'show'],
     components: {
         'ffshelf-dialog': dialog,
         'ffshelf-cover': cover
     },
     mounted: function () {},
     methods: {
+        open: function () {
+            this.show = true;
+        },
+        close: function () {
+            this.show = false;
+        },
 
         onCoverClick: function () {
-            console.log("cover clicked!");
+            this.show = false;
         },
 
         onChoose: function () {
@@ -516,7 +525,7 @@ var ffshelf$2 = { render: function () {
         },
 
         onCancel: function () {
-            console.log("cancel clicked!");
+            this.show = false;
         }
     }
 };
